@@ -1,4 +1,3 @@
-
 document
   .querySelector('button[type="submit"]')
   .addEventListener("click", (e) => {
@@ -21,9 +20,7 @@ document
     fetch("/.netlify/functions/get-boarding-gate", options)
       .then((res) => res.json())
       .then((res) => {
-        document.getElementById(
-          "result"
-        ).textContent
+        document.getElementById("result").textContent = res;
       })
       .catch((err) => {
         console.log(err);
