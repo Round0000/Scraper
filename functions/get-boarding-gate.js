@@ -1,6 +1,3 @@
-https://www.flightview.com/flight-tracker/AF/1600?date=20211203&depapt=CDG
-
-
 const chromium = require('chrome-aws-lambda');
 
 exports.handler = async (event, context) => {
@@ -34,7 +31,6 @@ exports.handler = async (event, context) => {
   return {
       statusCode: 200,
       body: JSON.stringify({
-          message: `Boarding gate :`,
           info
       })
   }
