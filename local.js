@@ -6,15 +6,6 @@ async function scrape(url) {
 
   await page.goto(url, { waitUntil: "networkidle2" });
 
-  // const info = await page.evaluate(() => {
-  //   let result = document.querySelectorAll("div[class^='table__TableRow']");
-  //   let data = [];
-  //   result.forEach((item) =>
-  //     data.push(item.querySelector('h2').textContent)
-  //   );
-  //   return data;
-  // });
-
   const response = await page.evaluate(() => {
     let flights = [];
 
@@ -89,8 +80,11 @@ const data = scrape(
 ).then((data) => {
   return getGates(data).then((res) => {
     console.log("oulala", res);
+    return res;
   });
 });
+
+return data
 
 // console.log(data.link);
 

@@ -9,32 +9,101 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ message: "Page URL not defined" }),
     };
 
-  const browser = await chromium.puppeteer.launch({
+
+
+  async function scrape(url) {
+    const browser = await chromium.puppeteer.launch({
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
     executablePath: await chromium.executablePath,
     headless: chromium.headless,
   });
+    const page = await browser.newPage();
 
-  const page = await browser.newPage();
+    await page.goto(url, { waitUntil: "networkidle2" });
 
-  await page.goto(pageToScrap, { waitUntil: "networkidle2" });
+    const response = await page.evaluate(() => {
+      let flights = [];
 
-  const info = await page.evaluate(() => {
-    let result = document.querySelectorAll("div[class^='table__TableRow']");
-    let str = '';
-    result.forEach(item => {
-      str += item.innerText;
-    })
-    return str;
+      const results = document.querySelectorAll(".flight-col__airline");
+
+      results.forEach((item) => {
+        if (
+          item.innerText.includes("Air France") ||
+          item.innerText.includes("KLM")
+        ) {
+          let obj = {};
+
+          let result = item.parentElement.parentElement;
+
+          obj.flightNumber = result.querySelector(
+            ".flight-col__flight a"
+          ).innerText;
+          obj.scheduledTime = result.querySelector(".flight-col__hour").innerText;
+          obj.destination = result.querySelector(
+            ".flight-col__dest-term"
+          ).innerText;
+          obj.link = result.querySelector(".flight-col__flight--link").href;
+
+          flights.push(obj);
+        }
+      });
+
+      return flights;
+    });
+
+    //
+
+    await browser.close();
+
+    console.log("FIRST RESPONSE FROM SCRAP FUNCTION :", response[0]);
+    return response;
+  }
+
+  async function getGates(data) {
+    data = [data[0], data[1], data[2]];
+    let finalData = [];
+    const browser = await chromium.puppeteer.launch({
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless,
+  });
+    const page = await browser.newPage();
+
+
+    console.log("data length in getGates function", data.length);
+
+    for (let i = 0; i < data.length; i++) {
+      await page.goto(data[i].link, { waitUntil: "networkidle2" });
+
+      const gate = await page.evaluate(() => {
+        let gateFound = document.querySelector(
+          ".flight-info__infobox div + div + div div:last-child"
+        ).innerText;
+
+        return gateFound;
+      });
+
+      data[i].gate = gate;
+      finalData.push(data[i]);
+    }
+
+    await page.close();
+
+    await browser.close();
+    console.log("FINAL DATA :", finalData);
+    return finalData;
+  }
+
+  const data = scrape(
+    "https://www.airport-charles-de-gaulle.com/cdg-departures-terminal-2F?tp=6"
+  ).then((data) => {
+    return getGates(data).then((res) => {
+      console.log("oulala", res);
+      return res;
+    });
   });
 
-  await browser.close();
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      info,
-    }),
-  };
+  return data
 };
