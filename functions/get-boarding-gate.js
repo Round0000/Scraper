@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
   await page.goto(pageToScrap, { waitUntil: "networkidle2" });
 
   const info = await page.evaluate(() => {
-    let result = document.querySelector("div[class^='table__TableRow']").innerText;
+    let result = document.querySelectorAll("div[class^='table__TableRow']");
     return result;
   });
 
