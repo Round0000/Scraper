@@ -22,7 +22,11 @@ exports.handler = async (event, context) => {
 
   const info = await page.evaluate(() => {
     let result = document.querySelectorAll("div[class^='table__TableRow']");
-    return JSON.stringify(result);
+    let str = '';
+    result.forEach(item => {
+      str += item.innerText;
+    })
+    return str;
   });
 
   await browser.close();
