@@ -16,7 +16,6 @@ exports.handler = async (event, context) => {
     headless: chromium.headless,
   });
 
-  const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   await page.goto(url, { waitUntil: "networkidle2" });
