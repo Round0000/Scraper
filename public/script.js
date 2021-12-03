@@ -21,7 +21,9 @@ document
     fetch("/.netlify/functions/get-boarding-gate", options)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        document.getElementById(
+          "result"
+        ).textContent
       })
       .catch((err) => {
         console.log(err);
