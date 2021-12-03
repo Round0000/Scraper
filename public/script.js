@@ -18,7 +18,6 @@ document
     document.getElementById("result").textContent = "Please wait...";
 
     fetch("/.netlify/functions/get-boarding-gate", options)
-      .then((res) => res.json())
       .then((res) => {
         document.getElementById("result").textContent = res;
       })
