@@ -50,3 +50,4 @@ async function scrape(url) {
 scrape(
   "https://www.flightstats.com/v2/flight-tracker/departures/CDG/AF?year=2021&month=12&date=3"
 );
+
