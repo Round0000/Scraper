@@ -21,9 +21,8 @@ exports.handler = async (event, context) => {
   await page.goto(pageToScrap, { waitUntil: "networkidle2" });
 
   const info = await page.evaluate(() => {
-    let gate = document.querySelector("h1").textContent;
-    console.log("wesh " + gate);
-    return gate;
+    let result = document.querySelectorAll("#__next > div > section > div > div.table__TableContainer-sc-1x7nv9w-5.fOHnRO > div.table__Table-sc-1x7nv9w-6.zGTLC > a")
+    return result;
   });
 
   await browser.close();
