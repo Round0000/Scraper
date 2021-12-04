@@ -21,7 +21,18 @@ document
       .then((res) => res.json())
       .then((res) => {
         console.log("res inside script.js ======> ", res);
-        document.getElementById("result").textContent = JSON.stringify(res);
+        const list = document.createElement("UL");
+        list.id = "flightsList";
+        res.forEach((flight) => {
+          const listItem = document.createElement("LI");
+          listItem.innerHTML = `
+            <p>${flight.scheduledTime}</p>
+            <p>${flight.flightNumber}</p>
+            <p>${flight.destination}</p>
+          `;
+          list.appendChild(listItem);
+        });
+        document.getElementById("result").innerHTML = list;
       })
       .catch((err) => {
         console.log(err);
