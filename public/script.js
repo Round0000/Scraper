@@ -1,3 +1,5 @@
+let data;
+
 document
   .querySelector('button[type="submit"]')
   .addEventListener("click", (e) => {
@@ -20,6 +22,7 @@ document
     fetch("/.netlify/functions/get-boarding-gate", options)
       .then((res) => res.json())
       .then((res) => {
+        data = res;
         console.log("res inside script.js ======> ", res);
         const list = document.createElement("UL");
         list.id = "flightsList";
