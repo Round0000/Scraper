@@ -27,8 +27,9 @@ exports.handler = async (event, context) => {
 
     results.forEach((item) => {
       if (
-        item.innerText.includes("Air France") ||
-        item.innerText.includes("KLM")
+        (item.innerText.includes("Air France") ||
+          item.innerText.includes("KLM")) &&
+        flights.length < 5
       ) {
         let obj = {};
 
@@ -43,21 +44,6 @@ exports.handler = async (event, context) => {
         ).innerText;
         obj.link = result.querySelector(".flight-col__flight--link").href;
 
-
-
-
-        // const gate = await page.evaluate(() => {
-        //   let gateFound = document.querySelector(
-        //     ".flight-info__infobox div + div + div div:last-child"
-        //   ).innerText;
-
-        //   return gateFound;
-        // });
-        // obj.gate = gate;
-
-
-
-
         flights.push(obj);
       }
     });
@@ -66,7 +52,7 @@ exports.handler = async (event, context) => {
   });
 
   for (let i = 0; i < response.length; i++) {
-    await page.goto(response[i].link, { waitUntil: "networkidle2" });
+    await page.goto(response[i].link, { waitUntil: "networkidle2", timeout: 0 });
 
     const additionalInfo = await page.evaluate(() => {
       const info = {};
