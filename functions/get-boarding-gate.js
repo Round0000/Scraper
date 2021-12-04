@@ -52,7 +52,7 @@ exports.handler = async (event, context) => {
   });
 
   for (let i = 0; i < response.length; i++) {
-    await page.goto(response[i].link, { waitUntil: "networkidle2", timeout: 0 });
+    await page.goto(response[i].link, { waitUntil: "networkidle2", timeout: 15000 });
 
     const additionalInfo = await page.evaluate(() => {
       const info = {};
