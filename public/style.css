@@ -52,3 +52,13 @@ button {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+
+#flightsList li {
+  display: flex;
+}
+
+#flightsList li p {
+  padding: .25em .5em;
+  margin: .25em;
+  border: 1px solid salmon;
+}

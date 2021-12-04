@@ -32,7 +32,7 @@ document
           `;
           list.appendChild(listItem);
         });
-        document.getElementById("result").innerHTML = list;
+        document.getElementById("result").appendChild(list);
       })
       .catch((err) => {
         console.log(err);
