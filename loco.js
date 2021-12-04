@@ -1,20 +1,7 @@
-const chromium = require("chrome-aws-lambda");
+const puppeteer = require("puppeteer");
 
-exports.handler = async (event, context) => {
-  const pageToScrap = JSON.parse(event.body).pageToScrap;
-
-  if (!pageToScrap)
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ message: "Page URL not defined" }),
-    };
-
-  const browser = await chromium.puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath,
-    headless: chromium.headless,
-  });
+async function scrape(pageToScrap) {
+  const browser = await puppeteer.launch();
 
   const page = await browser.newPage();
 
@@ -27,8 +14,9 @@ exports.handler = async (event, context) => {
 
     results.forEach((item) => {
       if (
-        item.innerText.includes("Air France") ||
-        item.innerText.includes("KLM")
+        (item.innerText.includes("Air France") ||
+          item.innerText.includes("KLM")) &&
+        flights.length < 5
       ) {
         let obj = {};
 
@@ -43,9 +31,6 @@ exports.handler = async (event, context) => {
         ).innerText;
         obj.link = result.querySelector(".flight-col__flight--link").href;
 
-
-
-
         // const gate = await page.evaluate(() => {
         //   let gateFound = document.querySelector(
         //     ".flight-info__infobox div + div + div div:last-child"
@@ -54,9 +39,6 @@ exports.handler = async (event, context) => {
         //   return gateFound;
         // });
         // obj.gate = gate;
-
-
-
 
         flights.push(obj);
       }
@@ -83,6 +65,8 @@ exports.handler = async (event, context) => {
     response[i].realDepartureTime = additionalInfo.realDepartureTime;
   }
 
+  //
+
   await browser.close();
 
   console.log(response);
@@ -90,4 +74,12 @@ exports.handler = async (event, context) => {
     statusCode: 200,
     body: JSON.stringify(response),
   };
-};
+}
+
+scrape(
+  "https://www.airport-charles-de-gaulle.com/cdg-departures-terminal-2F?tp=6"
+);
+
+// console.log(data.link);
+
+// getGate(data.link);
