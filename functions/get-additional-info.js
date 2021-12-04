@@ -19,7 +19,7 @@ exports.handler = async (event, context) => {
   let details = ["lolooooloooloollllll"];
 
   for (let i = 0; i < pagesToScrap.length; i++) {
-    await page.goto(pagesToScrap[i], { waitUntil: "networkidle2" });
+    await page.goto("https://www.airport-charles-de-gaulle.com/cdg-flight-departure/AF7668", { waitUntil: "networkidle2" });
 
     const additionalInfo = await page.evaluate(() => {
       const info = {};
