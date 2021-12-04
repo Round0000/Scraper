@@ -44,3 +44,22 @@ document
         ).textContent = `Error: ${err.toString()}`;
       });
   });
+
+
+  getMoreData.addEventListener('click', e => {
+    let pagesToScrap = [];
+
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify({ pagesToScrap: pagesToScrap }),
+    };
+
+    data.forEach(item => {
+
+      pagesToScrap.push(item.link);
+
+    })
+
+    console.log(pagesToScrap);
+  })
