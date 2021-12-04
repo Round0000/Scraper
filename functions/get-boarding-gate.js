@@ -65,7 +65,7 @@ exports.handler = async (event, context) => {
     return flights;
   });
 
-  await page.goto(response[0].link, { waitUntil: "networkidle2" });
+  await page.goto(response[0].link, { waitUntil: "networkidle2", timeout: 0 });
 
   response[0].gate = "wesh";
 
