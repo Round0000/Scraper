@@ -19,25 +19,25 @@ exports.handler = async (event, context) => {
   let details = ["lolooooloooloollllll"];
 
   // for (let i = 0; i < pagesToScrap.length; i++) {
-  await page.goto(
-    "https://www.airport-charles-de-gaulle.com/cdg-flight-departure/AF7668",
-    { waitUntil: "networkidle2" }
-  );
+  // await page.goto(
+  //   "https://www.airport-charles-de-gaulle.com/cdg-flight-departure/AF7668",
+  //   { waitUntil: "networkidle2" }
+  // );
 
-  const additionalInfo = await page.evaluate(() => {
-    const info = {};
-    info.gate = document.querySelector(
-      ".flight-info__infobox div + div + div div:last-child"
-    ).innerText;
+  // const additionalInfo = await page.evaluate(() => {
+  //   const info = {};
+  //   info.gate = document.querySelector(
+  //     ".flight-info__infobox div + div + div div:last-child"
+  //   ).innerText;
 
-    info.realDepartureTime = document.querySelector(
-      ".flight-info__infobox-text--G"
-    ).innerText;
+  //   info.realDepartureTime = document.querySelector(
+  //     ".flight-info__infobox-text--G"
+  //   ).innerText;
 
-    return info;
-  });
+  //   return info;
+  // });
 
-  details.push(additionalInfo);
+  // details.push(additionalInfo);
   // }
 
   await browser.close();
