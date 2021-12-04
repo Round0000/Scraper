@@ -43,17 +43,20 @@ exports.handler = async (event, context) => {
         ).innerText;
         obj.link = result.querySelector(".flight-col__flight--link").href;
 
-        await page.goto(obj.link, { waitUntil: "networkidle2" });
 
-        const gate = await page.evaluate(() => {
-          let gateFound = document.querySelector(
-            ".flight-info__infobox div + div + div div:last-child"
-          ).innerText;
 
-          return gateFound;
-        });
 
-        obj.gate = gate;
+        // const gate = await page.evaluate(() => {
+        //   let gateFound = document.querySelector(
+        //     ".flight-info__infobox div + div + div div:last-child"
+        //   ).innerText;
+
+        //   return gateFound;
+        // });
+        // obj.gate = gate;
+
+
+
 
         flights.push(obj);
       }
@@ -61,6 +64,11 @@ exports.handler = async (event, context) => {
 
     return flights;
   });
+
+  await page.goto(response[0].link, { waitUntil: "networkidle2" });
+
+  response[0].gate = "wesh";
+
 
   //
 
