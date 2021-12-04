@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
     headless: chromium.headless,
   });
 
-  let details = [];
+  let details = ["lolooooloooloollllll"];
 
   for (let i = 0; i < pagesToScrap.length; i++) {
     await page.goto(pagesToScrap[i], { waitUntil: "networkidle2" });
