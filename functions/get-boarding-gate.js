@@ -51,23 +51,7 @@ exports.handler = async (event, context) => {
     return flights;
   });
 
-  for (let i = 0; i < response.length; i++) {
-    await page.goto(response[i].link, { waitUntil: "networkidle2", timeout: 15000 });
 
-    const additionalInfo = await page.evaluate(() => {
-      const info = {};
-      info.gate = document.querySelector(
-        ".flight-info__infobox div + div + div div:last-child"
-      ).innerText;
-
-      info.realDepartureTime = document.querySelector('.flight-info__infobox-text--G').innerText;
-
-      return info;
-    });
-
-    response[i].gate = additionalInfo.gate;
-    response[i].realDepartureTime = additionalInfo.realDepartureTime;
-  }
 
   await browser.close();
 
