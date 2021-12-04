@@ -20,8 +20,6 @@ exports.handler = async (event, context) => {
 
   await page.goto(pageToScrap, { waitUntil: "networkidle2" });
 
-  await page.screenshot();
-
   const response = await page.evaluate(() => {
     let flights = [];
 
@@ -57,5 +55,8 @@ exports.handler = async (event, context) => {
   await browser.close();
 
   console.log(response);
-  return response
+  return {
+    statusCode: 200,
+    body: JSON.stringify(response),
+  };
 };
