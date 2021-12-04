@@ -20,6 +20,8 @@ exports.handler = async (event, context) => {
 
   await page.goto(pageToScrap, { waitUntil: "networkidle2" });
 
+  await page.screenshot();
+
   const response = await page.evaluate(() => {
     let flights = [];
 
