@@ -40,12 +40,7 @@ exports.handler = async (event, context) => {
   // details.push(additionalInfo);
   // }
 
-
-
-  await page.goto(
-    pagesToScrap[0],
-    { waitUntil: "networkidle2" }
-  );
+  await page.goto("https://www.airport-charles-de-gaulle.com/cdg-flight-departure/AF7668", { waitUntil: "networkidle2" });
 
   const additionalInfo = await page.evaluate(() => {
     const info = {};
