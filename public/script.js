@@ -61,5 +61,19 @@ document
 
     })
 
+    fetch("/.netlify/functions/get-additional-info", options)
+      .then((res) => res.json())
+      .then((res) => {
+
+        console.log("DOES IT WORK OU PAS ======> ", res);
+
+      })
+      .catch((err) => {
+        console.log(err);
+        document.getElementById(
+          "result"
+        ).textContent = `Error: ${err.toString()}`;
+      });
+
     console.log(pagesToScrap);
   })
