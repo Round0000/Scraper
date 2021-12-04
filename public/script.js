@@ -23,7 +23,7 @@ document
         console.log("res inside script.js ======> ", res);
         const list = document.createElement("UL");
         list.id = "flightsList";
-        res.forEach((flight) => {
+        Array.from(res).forEach((flight) => {
           const listItem = document.createElement("LI");
           listItem.innerHTML = `
             <p>${flight.scheduledTime}</p>
