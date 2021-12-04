@@ -27,8 +27,8 @@ exports.handler = async (event, context) => {
 
     results.forEach((item) => {
       if (
-        item.innerText.includes("Air France") && flights.length < 3 ||
-        item.innerText.includes("KLM") && flights.length < 3
+        item.innerText.includes("Air France") ||
+        item.innerText.includes("KLM")
       ) {
         let obj = {};
 
