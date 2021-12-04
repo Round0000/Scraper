@@ -60,12 +60,12 @@ exports.handler = async (event, context) => {
     return info;
   });
 
-  details.push(additionalInfo);
+  // details.push(additionalInfo);
 
   await browser.close();
 
   return {
     statusCode: 200,
-    body: JSON.stringify(details),
+    body: JSON.stringify(additionalInfo),
   };
 };
