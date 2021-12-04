@@ -40,10 +40,32 @@ exports.handler = async (event, context) => {
   // details.push(additionalInfo);
   // }
 
+
+
+  await page.goto(
+    pagesToScrap[0],
+    { waitUntil: "networkidle2" }
+  );
+
+  const additionalInfo = await page.evaluate(() => {
+    const info = {};
+    info.gate = document.querySelector(
+      ".flight-info__infobox div + div + div div:last-child"
+    ).innerText;
+
+    info.realDepartureTime = document.querySelector(
+      ".flight-info__infobox-text--G"
+    ).innerText;
+
+    return info;
+  });
+
+  details.push(additionalInfo);
+
   await browser.close();
 
   return {
     statusCode: 200,
-    body: JSON.stringify(pagesToScrap),
+    body: JSON.stringify(details),
   };
 };
