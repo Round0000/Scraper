@@ -45,35 +45,30 @@ document
       });
   });
 
+getMoreData.addEventListener("click", (e) => {
+  let pagesToScrap = [];
 
-  getMoreData.addEventListener('click', e => {
-    let pagesToScrap = [];
+  data.forEach((item) => {
+    pagesToScrap.push(item.link);
+  });
 
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify({ pagesToScrap: pagesToScrap }),
-    };
+  const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify({ pagesToScrap: pagesToScrap }),
+  };
 
-    data.forEach(item => {
-
-      pagesToScrap.push(item.link);
-
+  fetch("/.netlify/functions/get-additional-info", options)
+    .then((res) => res.json())
+    .then((res) => {
+      console.log("DOES IT WORK OU PAS ======> ", res);
     })
+    .catch((err) => {
+      console.log(err);
+      document.getElementById(
+        "result"
+      ).textContent = `Error: ${err.toString()}`;
+    });
 
-    fetch("/.netlify/functions/get-additional-info", options)
-      .then((res) => res.json())
-      .then((res) => {
-
-        console.log("DOES IT WORK OU PAS ======> ", res);
-
-      })
-      .catch((err) => {
-        console.log(err);
-        document.getElementById(
-          "result"
-        ).textContent = `Error: ${err.toString()}`;
-      });
-
-    console.log(pagesToScrap);
-  })
+  console.log(pagesToScrap);
+});
