@@ -37,10 +37,9 @@ exports.handler = async (event, context) => {
 
   await browser.close();
 
-  console.log(details);
   return {
     statusCode: 200,
-    body: JSON.stringify(details),
+    body: JSON.stringify(pagesToScrap),
   };
 };
 
